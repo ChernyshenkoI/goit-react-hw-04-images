@@ -7,23 +7,21 @@ import { createPortal } from 'react-dom';
 
 const portalContainer = document.querySelector('#portal');
 
-  export class  Modal extends Component {
-    componentDidMount() {
-      window.addEventListener('keydown', this.handleKeyPress);
+  export function  Modal ({img, description, onClickCloseModal }) {
+   
+    const  componentDidMount =() =>{
+      window.addEventListener('keydown', handleKeyPress);
     }
-    componentWillUnmount() {
-      window.removeEventListener('keydown', this.handleKeyPress);
+  const  componentWillUnmount= () =>{
+      window.removeEventListener('keydown', handleKeyPress);
     }
 
-  handleKeyPress = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Escape') {
-      this.props.onClickCloseModal();
+      onClickCloseModal();
     }
   };
 
-    render (){
-      const { img, description, onClickCloseModal } = this.props;
-     
       return createPortal(
           <Overlay onClick={onClickCloseModal}>
           <ModalStyled>
@@ -31,9 +29,8 @@ const portalContainer = document.querySelector('#portal');
           </ModalStyled>
         </Overlay>, portalContainer)
       }
-};
 
-    
+    export default Modal
  
 
 Modal.propTypes = {

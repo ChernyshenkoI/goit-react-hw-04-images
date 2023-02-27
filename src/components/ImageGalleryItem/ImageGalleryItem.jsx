@@ -1,4 +1,5 @@
 import React from 'react';
+// import { memo } from 'react';
 // import styled from 'styled-components';
 
 import { ImageItemStyled, ImageStyled } from './Styled';
@@ -21,3 +22,4 @@ export const ImageGalleryItem = ({
   );
 };
 
+// export default memo(ImageGalleryItem);
