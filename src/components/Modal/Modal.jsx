@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect}  from 'react';
 // import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -8,19 +8,20 @@ import { createPortal } from 'react-dom';
 const portalContainer = document.querySelector('#portal');
 
   export function  Modal ({img, description, onClickCloseModal }) {
-   
-    const  componentDidMount =() =>{
-      window.addEventListener('keydown', handleKeyPress);
-    }
-  const  componentWillUnmount= () =>{
-      window.removeEventListener('keydown', handleKeyPress);
-    }
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Escape') {
-      onClickCloseModal();
-    }
-  };
+   
+    useEffect(()=> {
+      // const handleKeyPress = (e) => {
+       
+      //   if (e.key === 'Escape') {
+      //     onClickCloseModal();
+      //   }
+      // };
+      window.addEventListener('keydown', onClickCloseModal);
+      return () => window.removeEventListener('keydown', onClickCloseModal);
+    },[onClickCloseModal])
+
+  
 
       return createPortal(
           <Overlay onClick={onClickCloseModal}>

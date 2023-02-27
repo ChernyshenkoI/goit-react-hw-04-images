@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from './API/API';
 
 import { SearchBar } from './Searchbar/Searchbar';
@@ -9,90 +9,101 @@ import { Button } from './Button/Button';
 
 const imgAPI = new API();
 
-export class App extends Component {
-  state = {
-    images: [],
-    page: 1,
-    query: '',
-    isLoading: false,
-    isOpenModal: false,
-    largeImg: '',
-    description: '',
-  };
+export const App = () =>{
+  
+    const [images,setImages]=useState([])
+    const [page, setPage]= useState(1)
+    const [query, setQuery] = useState("")
+    const [isLoading,setIsLoading] = useState(false)
+    const [isOpenModal,setIsOpenModal] = useState(false)
+    const [largeImg,setLargeImg] = useState('')
+    const [description,setDescription]= useState('')
+  
 
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    this.setState({
-      query: e.target.elements.input.value,
-      page: 1,
-      images: [],
-    });
+    
+      setQuery(e.target.elements.input.value)
+      setPage(1)
+      setImages([])
+   
     e.target.reset();
   };
 
-  onClickOpenModal = (url, description) => {
-    this.setState({
-      largeImg: url,
-      description,
-      isOpenModal: true,
-      isLoading: true,
-    });
-    this.setState({ isLoading: false });
+  const onClickOpenModal = (url, description) => {
+    setIsLoading(true)
+    setLargeImg(url)
+    setDescription(description)
+    setIsOpenModal(true)
+    setIsLoading(false);
   };
 
-  onCloseModalByEsc = e => {
-    if (e.key === 'Escape') {
-      this.setState({ isOpenModal: false });
+  const onClickCloseModal = e => {
+    if (e.currentTarget === e.target || e.key === 'Escape') {
+      setIsOpenModal(false)
     }
   };
 
-  onClickCloseModal = e => {
-    if (e.currentTarget === e.target) {
-      this.setState({ isOpenModal: false });
-    }
+  const onLoadMore = async () => {
+    
+    setPage(prevPage => prevPage +1)
   };
 
-  onLoadMore = async () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
-  };
-
-  async componentDidUpdate(prevProps, prevState) {
-    const { page } = this.state;
-    const { query } = this.state;
-    if (prevState.page !== page || prevState.query !== query) {
-      this.setState({ isLoading: true });
+  useEffect(() => {
+   
+     const fetchData = async (query, page)=> {
       try {
+        setIsLoading(true)
         const { hits } = await imgAPI.fetchImgs(query, page);
-        this.setState({ images: [...prevState.images, ...hits] });
+        setImages(prevImgs => [...prevImgs, ...hits]);
       } catch (error) {
         console.log(error);
       } finally {
-        this.setState({ isLoading: false });
+        setIsLoading(false)
       }
-    }
-  }
-  render() {
+     }
+     if (query !== "") {
+      fetchData(query, page)
+     }
+    
+  },[page, query])
+
+
+  // async componentDidUpdate(prevProps, prevState) {
+  //   const { page } = this.state;
+  //   const { query } = this.state;
+  //   if (prevState.page !== page || prevState.query !== query) {
+  //     this.setState({ isLoading: true });
+  //     try {
+  //       const { hits } = await imgAPI.fetchImgs(query, page);
+  //       this.setState({ images: [...prevState.images, ...hits] });
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       this.setState({ isLoading: false });
+  //     }
+  //   }
+  // }
+  
     return (
       <>
-        <SearchBar onSubmit={this.onSubmit} />
+        <SearchBar onSubmit={onSubmit} />
         <ImageGallery
-          images={this.state.images}
-          onModalOpen={this.onClickOpenModal}
+          images={images}
+          onModalOpen={onClickOpenModal}
         />
-        {this.state.images.length !== 0 && (
-          <Button onLoadMore={this.onLoadMore} btnText="Load more..." />
+        {images.length !== 0 && (
+          <Button onLoadMore={onLoadMore} btnText="Load more..." />
         )}
-        {this.state.isOpenModal && (
+        {isOpenModal && (
           <Modal
-            onClickCloseModal={this.onClickCloseModal}
-            img={this.state.largeImg}
-            description={this.state.description}
+            onClickCloseModal={onClickCloseModal}
+            img={largeImg}
+            description={description}
           />
         )}
-        {this.state.isLoading && <Loader />}
+        {isLoading && <Loader />}
       </>
     );
-  }
+  
 }
