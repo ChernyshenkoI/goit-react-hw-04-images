@@ -39,4 +39,3 @@ Modal.propTypes = {
   onClickCloseModal: PropTypes.func,
 };
 
-// export default Modal;
