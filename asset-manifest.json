@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/goit-react-hw-04-images/static/css/main.d120fd76.css",
-    "main.js": "/goit-react-hw-04-images/static/js/main.e79f8521.js",
-    "static/media/search.svg": "/goit-react-hw-04-images/static/media/search.2a598ce6cb358941875c.svg",
-    "index.html": "/goit-react-hw-04-images/index.html",
-    "main.d120fd76.css.map": "/goit-react-hw-04-images/static/css/main.d120fd76.css.map",
-    "main.e79f8521.js.map": "/goit-react-hw-04-images/static/js/main.e79f8521.js.map"
+    "main.css": "/ChernyshenkoI/goit-react-hw-04-images/static/css/main.950caf74.css",
+    "main.js": "/ChernyshenkoI/goit-react-hw-04-images/static/js/main.cff064f2.js",
+    "static/media/search.svg": "/ChernyshenkoI/goit-react-hw-04-images/static/media/search.2a598ce6cb358941875c.svg",
+    "index.html": "/ChernyshenkoI/goit-react-hw-04-images/index.html",
+    "main.950caf74.css.map": "/ChernyshenkoI/goit-react-hw-04-images/static/css/main.950caf74.css.map",
+    "main.cff064f2.js.map": "/ChernyshenkoI/goit-react-hw-04-images/static/js/main.cff064f2.js.map"
   },
   "entrypoints": [
-    "static/css/main.d120fd76.css",
-    "static/js/main.e79f8521.js"
+    "static/css/main.950caf74.css",
+    "static/js/main.cff064f2.js"
   ]
 }
